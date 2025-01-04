@@ -7,7 +7,6 @@ import {
   FileText,
   Calculator,
   Clock,
-  Calendar,
   QrCode,
   Hash,
   Type,
@@ -149,14 +148,17 @@ export const tools: Tool[] = [
   },
   {
     id: "date-calculator",
-    title: "Date Calculator",
-    description: "日付の計算や期間の算出",
-    icon: Calendar,
-    url: "https://timeanddate.com/date/duration.html",
-    category: "時間管理",
+    title: "日付計算",
+    description: "日数計算・年齢計算",
+    icon: CalendarDays,
+    url: "https://keisan.casio.jp/exec/system/1161228943",
+    category: "計算・換算",
     platforms: ["browser"],
+    difficulty: "beginner",
     longDescription:
-      "日付間の期間計算、特定の日数後の日付算出など、日付に関する計算を簡単に行えるツール。",
+      "日付間の日数計算や年齢計算、曜日判定などができるツール。期間の計算や締め日の算出に便利。",
+    rating: 4.2,
+    downloadCount: 400000,
   },
   {
     id: "qr-generator",
@@ -498,16 +500,5 @@ export const tools: Tool[] = [
     platforms: ["browser"],
     longDescription:
       "世界各国の通貨をリアルタイムのレートで換算できるツール。履歴グラフや通貨情報も確認可能。",
-  },
-  {
-    id: "date-calculator",
-    title: "日付計算",
-    description: "日数計算・年齢計算",
-    icon: CalendarDays,
-    url: "https://keisan.casio.jp/exec/system/1161228943",
-    category: "計算・換算",
-    platforms: ["browser"],
-    longDescription:
-      "日付間の日数計算や年齢計算、曜日判定などができるツール。期間の計算や締め日の算出に便利。",
   },
 ];

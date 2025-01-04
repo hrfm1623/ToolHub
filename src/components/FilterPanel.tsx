@@ -39,7 +39,7 @@ export const FilterPanel: React.FC = () => {
     sortOrder,
   } = useSelector((state: RootState) => state.filter);
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
