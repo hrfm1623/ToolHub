@@ -12,6 +12,12 @@ import {
   Hash,
   Type,
   Palette,
+  Link,
+  Share2,
+  FileSearch,
+  Download,
+  Languages,
+  Mail,
 } from "lucide-react";
 
 export const tools: Tool[] = [
@@ -183,5 +189,127 @@ export const tools: Tool[] = [
     longDescription:
       "カラーパレットの生成や編集、保存が可能なツール。色のハーモニーやアクセシビリティも考慮したパレット作成をサポートします。",
     relatedTools: ["figma"],
+  },
+  {
+    id: "amazon-url-shortener",
+    title: "Amazon URL Shortener",
+    description: "Amazonの商品URLを短縮・整形",
+    icon: Link,
+    url: "https://amazon-url-shortener.vercel.app",
+    category: "URL管理",
+    platforms: ["browser"],
+    longDescription:
+      "Amazonの長いURLから不要なパラメータを削除し、シンプルで共有しやすいURLに変換します。アフィリエイトパラメータの付与にも対応。",
+  },
+  {
+    id: "temp-mail",
+    title: "Temp Mail",
+    description: "使い捨てメールアドレス生成",
+    icon: Mail,
+    url: "https://temp-mail.org",
+    category: "プライバシー",
+    platforms: ["browser"],
+    longDescription:
+      "一時的なメールアドレスを即座に生成。サービスの登録時やニュースレターの購読など、個人のメールアドレスを使いたくない場合に便利です。",
+  },
+  {
+    id: "deepl",
+    title: "DeepL",
+    description: "高精度な機械翻訳",
+    icon: Languages,
+    url: "https://www.deepl.com/translator",
+    category: "翻訳",
+    platforms: ["browser", "vscode"],
+    longDescription:
+      "AIを活用した高精度な翻訳サービス。自然な翻訳結果と専門用語への対応が特徴で、ビジネス文書や技術文書の翻訳に最適です。",
+    pricing: [
+      {
+        name: "Free",
+        price: 0,
+        currency: "USD",
+        billingPeriod: "free",
+        features: [
+          "月500,000文字まで無料",
+          "基本的な翻訳機能",
+          "Webサイト翻訳",
+        ],
+      },
+      {
+        name: "Pro",
+        price: 30,
+        currency: "USD",
+        billingPeriod: "monthly",
+        features: [
+          "無制限の翻訳",
+          "ドキュメント翻訳",
+          "用語集機能",
+          "チーム共有",
+        ],
+      },
+    ],
+  },
+  {
+    id: "file-converter",
+    title: "File Converter",
+    description: "各種ファイル形式の変換",
+    icon: FileSearch,
+    url: "https://cloudconvert.com",
+    category: "ファイル変換",
+    platforms: ["browser"],
+    longDescription:
+      "200以上のファイル形式に対応したオンラインファイル変換ツール。画像、動画、音声、ドキュメント、アーカイブなど、あらゆる形式の変換が可能です。",
+  },
+  {
+    id: "youtube-downloader",
+    title: "YouTube Downloader",
+    description: "YouTube動画のダウンロード",
+    icon: Download,
+    url: "https://yt-dl.org",
+    category: "ダウンロード",
+    platforms: ["cli"],
+    languages: ["python"],
+    githubUrl: "https://github.com/yt-dlp/yt-dlp",
+    documentationUrl: "https://github.com/yt-dlp/yt-dlp#readme",
+    longDescription:
+      "YouTubeやその他の動画サイトから動画をダウンロードできるコマンドラインツール。様々な品質オプションや字幕のダウンロードにも対応。",
+    installCommands: {
+      pip: "pip install yt-dlp",
+    },
+  },
+  {
+    id: "share-files",
+    title: "File Transfer",
+    description: "一時的なファイル共有サービス",
+    icon: Share2,
+    url: "https://wetransfer.com",
+    category: "ファイル共有",
+    platforms: ["browser"],
+    longDescription:
+      "大容量ファイルを一時的に共有できるサービス。メールアドレスを使用して簡単にファイルを送信でき、リンクの有効期限も設定可能です。",
+    pricing: [
+      {
+        name: "Free",
+        price: 0,
+        currency: "USD",
+        billingPeriod: "free",
+        features: [
+          "2GBまでのファイル転送",
+          "7日間のリンク有効期限",
+          "基本的な共有機能",
+        ],
+      },
+      {
+        name: "Pro",
+        price: 12,
+        currency: "USD",
+        billingPeriod: "monthly",
+        features: [
+          "20GBまでのファイル転送",
+          "カスタム有効期限",
+          "パスワード保護",
+          "ストレージ機能",
+        ],
+      },
+    ],
   },
 ];
