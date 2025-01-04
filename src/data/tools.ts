@@ -1,5 +1,18 @@
 import { Tool } from "../types/tool";
-import { Github, Figma, Code } from "lucide-react";
+import {
+  Github,
+  Figma,
+  Code,
+  Image,
+  FileText,
+  Calculator,
+  Clock,
+  Calendar,
+  QrCode,
+  Hash,
+  Type,
+  Palette,
+} from "lucide-react";
 
 export const tools: Tool[] = [
   {
@@ -68,5 +81,107 @@ export const tools: Tool[] = [
     languages: ["javascript", "typescript", "python", "java", "go", "rust"],
     relatedTools: ["github"],
     alternativeTools: ["sublime-text", "atom"],
+  },
+  {
+    id: "image-optimizer",
+    title: "Image Optimizer",
+    description: "画像を品質を維持したまま最適化",
+    icon: Image,
+    url: "https://squoosh.app",
+    category: "画像処理",
+    platforms: ["web"],
+    longDescription:
+      "ブラウザベースの高度な画像最適化ツール。様々なフォーマットに対応し、プレビューを確認しながら最適な設定を選択できます。",
+  },
+  {
+    id: "json-formatter",
+    title: "JSON Formatter",
+    description: "JSONデータのフォーマットとバリデーション",
+    icon: FileText,
+    url: "https://jsonformatter.org",
+    category: "開発ツール",
+    platforms: ["web"],
+    languages: ["javascript"],
+    longDescription:
+      "JSONデータを見やすく整形し、構文の検証も行えるオンラインツール。データの圧縮や展開、異なるフォーマット間の変換にも対応しています。",
+  },
+  {
+    id: "unit-converter",
+    title: "Unit Converter",
+    description: "様々な単位の変換ツール",
+    icon: Calculator,
+    url: "https://unitconverters.net",
+    category: "ユーティリティ",
+    platforms: ["web"],
+    longDescription:
+      "長さ、重さ、温度など、あらゆる単位の変換に対応したツール。直感的なインターフェースで素早く正確な変換が可能です。",
+  },
+  {
+    id: "world-clock",
+    title: "World Clock",
+    description: "世界各地のタイムゾーンを確認",
+    icon: Clock,
+    url: "https://worldtimebuddy.com",
+    category: "時間管理",
+    platforms: ["web", "mobile"],
+    longDescription:
+      "世界中の時刻を一目で確認できるツール。ミーティングのスケジュール調整やリモートワークでの時差確認に便利です。",
+  },
+  {
+    id: "date-calculator",
+    title: "Date Calculator",
+    description: "日付の計算や期間の算出",
+    icon: Calendar,
+    url: "https://timeanddate.com/date/duration.html",
+    category: "時間管理",
+    platforms: ["web"],
+    longDescription:
+      "日付間の期間計算、特定の日数後の日付算出など、日付に関する計算を簡単に行えるツール。",
+  },
+  {
+    id: "qr-generator",
+    title: "QR Code Generator",
+    description: "URLやテキストからQRコードを生成",
+    icon: QrCode,
+    url: "https://qr-code-generator.com",
+    category: "ユーティリティ",
+    platforms: ["web"],
+    longDescription:
+      "様々なデータ形式に対応したQRコード生成ツール。カスタマイズ可能なデザインオプションも提供しています。",
+  },
+  {
+    id: "hash-generator",
+    title: "Hash Generator",
+    description: "各種ハッシュ値の生成",
+    icon: Hash,
+    url: "https://passwordsgenerator.net/sha256-hash-generator",
+    category: "開発ツール",
+    platforms: ["web"],
+    languages: ["javascript"],
+    longDescription:
+      "MD5、SHA-1、SHA-256など、様々なハッシュアルゴリズムに対応したハッシュ値生成ツール。",
+  },
+  {
+    id: "lorem-ipsum",
+    title: "Lorem Ipsum Generator",
+    description: "デザイン用のダミーテキスト生成",
+    icon: Type,
+    url: "https://loremipsum.io",
+    category: "コンテンツ",
+    platforms: ["web"],
+    longDescription:
+      "デザインやレイアウトの確認用に、様々な長さやフォーマットのダミーテキストを生成できるツール。",
+  },
+  {
+    id: "color-palette",
+    title: "Color Palette Generator",
+    description: "プロジェクト用のカラースキーム作成",
+    icon: Palette,
+    url: "https://coolors.co",
+    category: "デザイン",
+    platforms: ["web"],
+    longDescription:
+      "カラーパレットの生成や編集、保存が可能なツール。色のハーモニーやアクセシビリティも考慮したパレット作成をサポートします。",
+    relatedTools: ["figma"],
   },
 ];
