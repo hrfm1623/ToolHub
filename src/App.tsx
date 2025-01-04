@@ -39,6 +39,7 @@ const ToolDetailWrapper = () => {
 function App() {
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
+  const favorites = useSelector((state: RootState) => state.favorites.tools);
   const {
     searchTerm,
     selectedCategory,
@@ -148,14 +149,35 @@ function App() {
                     <FilterPanel />
                   </div>
                   <div className="lg:col-span-3">
+                    {favorites.length > 0 && (
+                      <div className="mb-8">
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                          お気に入り
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {favorites.map((tool) => (
+                            <ToolCard key={tool.id} {...tool} />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     <div className="mb-8">
+                      <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                          すべてのツール
+                        </h2>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {filteredTools.length}件
+                        </div>
+                      </div>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                           <Search className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                         </div>
                         <input
                           type="text"
-                          placeholder="Search tools..."
+                          placeholder="ツールを検索..."
                           className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 sm:text-sm transition-colors"
                           value={searchTerm}
                           onChange={(e) =>
