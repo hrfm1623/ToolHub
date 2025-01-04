@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, Heart, Grid } from "lucide-react";
 import {
   BrowserRouter as Router,
@@ -49,8 +49,9 @@ function App() {
     searchTerm,
     selectedCategory,
     selectedPlatforms,
-    selectedLanguages,
+    selectedDifficulty,
     priceRange,
+    rating,
     sortBy,
     sortOrder,
   } = useSelector((state: RootState) => state.filter);
@@ -82,13 +83,10 @@ function App() {
             selectedPlatforms.includes(platform)
           ));
 
-      // 言語フィルター
-      const matchesLanguage =
-        selectedLanguages.length === 0 ||
-        (tool.languages &&
-          tool.languages.some((language) =>
-            selectedLanguages.includes(language)
-          ));
+      // 難易度フィルター
+      const matchesDifficulty =
+        !selectedDifficulty ||
+        (tool.difficulty && tool.difficulty === selectedDifficulty);
 
       // 価格フィルター
       const matchesPrice =
@@ -100,65 +98,70 @@ function App() {
               (!priceRange.max || plan.price <= priceRange.max)
           ));
 
+      // 評価フィルター
+      const matchesRating = !rating || (tool.rating && tool.rating >= rating);
+
       return (
         matchesSearch &&
         matchesCategory &&
         matchesPlatform &&
-        matchesLanguage &&
-        matchesPrice
+        matchesDifficulty &&
+        matchesPrice &&
+        matchesRating
       );
     })
     .sort((a, b) => {
-      let comparison = 0;
+      const ratingA = a.rating || 0;
+      const ratingB = b.rating || 0;
+      const downloadA = a.downloadCount || 0;
+      const downloadB = b.downloadCount || 0;
+
       switch (sortBy) {
+        case "rating":
+          return sortOrder === "asc" ? ratingA - ratingB : ratingB - ratingA;
+        case "downloadCount":
+          return sortOrder === "asc"
+            ? downloadA - downloadB
+            : downloadB - downloadA;
         case "name":
-          comparison = a.title.localeCompare(b.title);
-          break;
+          return sortOrder === "asc"
+            ? a.title.localeCompare(b.title)
+            : b.title.localeCompare(a.title);
         case "category":
-          comparison = a.category.localeCompare(b.category);
-          break;
-        case "platform":
-          comparison = (a.platforms?.[0] || "").localeCompare(
-            b.platforms?.[0] || ""
-          );
-          break;
+          return sortOrder === "asc"
+            ? a.category.localeCompare(b.category)
+            : b.category.localeCompare(a.category);
+        default:
+          return 0;
       }
-      return sortOrder === "asc" ? comparison : -comparison;
     });
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
-    dispatch(
-      reorderFavorites({
-        startIndex: result.source.index,
-        endIndex: result.destination.index,
-      })
-    );
+    const items = Array.from(favorites);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    dispatch(reorderFavorites(items));
   };
 
   return (
     <Router>
-      <Routes>
-        <Route path="/tools/:id" element={<ToolDetailWrapper />} />
-        <Route
-          path="/"
-          element={
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-              <header className="bg-white dark:bg-gray-800 shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <Logo />
-                      <h1 className="ml-3 text-2xl font-bold text-gray-900 dark:text-white">
-                        ToolBox
-                      </h1>
-                    </div>
-                    <ThemeToggle />
-                  </div>
-                </div>
-              </header>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+        <header className="bg-white dark:bg-gray-800 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <Logo />
+              <ThemeToggle />
+            </div>
+          </div>
+        </header>
 
+        <Routes>
+          <Route
+            path="/"
+            element={
               <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                   <div className="lg:col-span-1">
@@ -215,56 +218,44 @@ function App() {
                           />
                         </div>
 
-                        <DragDropContext onDragEnd={handleDragEnd}>
-                          {activeTab === "all" ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                              {filteredTools.map((tool) => (
-                                <ToolCard key={tool.id} {...tool} />
-                              ))}
-                            </div>
-                          ) : (
+                        {activeTab === "all" ? (
+                          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
+                            {filteredTools.map((tool) => (
+                              <ToolCard key={tool.id} {...tool} />
+                            ))}
+                          </div>
+                        ) : (
+                          <DragDropContext onDragEnd={handleDragEnd}>
                             <Droppable droppableId="favorites">
                               {(provided) => (
                                 <div
-                                  ref={provided.innerRef}
                                   {...provided.droppableProps}
-                                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                                  ref={provided.innerRef}
+                                  className="space-y-6"
                                 >
                                   {favorites.map((tool, index) => (
                                     <DraggableToolCard
                                       key={tool.id}
+                                      tool={tool}
                                       index={index}
-                                      {...tool}
                                     />
                                   ))}
                                   {provided.placeholder}
                                 </div>
                               )}
                             </Droppable>
-                          )}
-                        </DragDropContext>
-
-                        {activeTab === "favorites" &&
-                          favorites.length === 0 && (
-                            <div className="text-center py-12">
-                              <Heart className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" />
-                              <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">
-                                お気に入りがありません
-                              </h3>
-                              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                ツールカードのハートアイコンをクリックして、お気に入りに追加できます。
-                              </p>
-                            </div>
-                          )}
+                          </DragDropContext>
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
               </main>
-            </div>
-          }
-        />
-      </Routes>
+            }
+          />
+          <Route path="/tools/:id" element={<ToolDetailWrapper />} />
+        </Routes>
+      </div>
     </Router>
   );
 }

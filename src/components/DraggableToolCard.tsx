@@ -3,13 +3,14 @@ import { Draggable } from "react-beautiful-dnd";
 import { Tool } from "../types/tool";
 import { ToolCard } from "./ToolCard";
 
-interface DraggableToolCardProps extends Tool {
+interface DraggableToolCardProps {
+  tool: Tool;
   index: number;
 }
 
 export const DraggableToolCard: React.FC<DraggableToolCardProps> = ({
+  tool,
   index,
-  ...tool
 }) => {
   return (
     <Draggable draggableId={tool.id} index={index}>
