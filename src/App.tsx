@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Search, Wrench } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Search, Wrench, Heart, Grid } from "lucide-react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,6 +14,9 @@ import { FilterPanel } from "./components/FilterPanel";
 import { tools } from "./data/tools";
 import { RootState } from "./store/store";
 import { setSearchTerm } from "./store/filterSlice";
+import { DraggableToolCard } from "./components/DraggableToolCard";
+import { reorderFavorites } from "./store/favoriteSlice";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 const ToolDetailWrapper = () => {
   const { id } = useParams<{ id: string }>();
@@ -40,6 +43,7 @@ function App() {
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const favorites = useSelector((state: RootState) => state.favorites.tools);
+  const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
   const {
     searchTerm,
     selectedCategory,
@@ -121,6 +125,17 @@ function App() {
       return sortOrder === "asc" ? comparison : -comparison;
     });
 
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+
+    dispatch(
+      reorderFavorites({
+        startIndex: result.source.index,
+        endIndex: result.destination.index,
+      })
+    );
+  };
+
   return (
     <Router>
       <Routes>
@@ -149,48 +164,98 @@ function App() {
                     <FilterPanel />
                   </div>
                   <div className="lg:col-span-3">
-                    {favorites.length > 0 && (
-                      <div className="mb-8">
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                          お気に入り
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {favorites.map((tool) => (
-                            <ToolCard key={tool.id} {...tool} />
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
                     <div className="mb-8">
-                      <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                          すべてのツール
-                        </h2>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {filteredTools.length}件
-                        </div>
+                      <div className="border-b border-gray-200 dark:border-gray-700">
+                        <nav className="-mb-px flex space-x-8">
+                          <button
+                            onClick={() => setActiveTab("all")}
+                            className={`${
+                              activeTab === "all"
+                                ? "border-indigo-500 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400"
+                                : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-300"
+                            } flex items-center whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+                          >
+                            <Grid className="h-5 w-5 mr-2" />
+                            すべてのツール
+                            <span className="ml-2 py-0.5 px-2 rounded-full text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                              {filteredTools.length}
+                            </span>
+                          </button>
+                          <button
+                            onClick={() => setActiveTab("favorites")}
+                            className={`${
+                              activeTab === "favorites"
+                                ? "border-indigo-500 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400"
+                                : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-300"
+                            } flex items-center whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+                          >
+                            <Heart className="h-5 w-5 mr-2" />
+                            お気に入り
+                            <span className="ml-2 py-0.5 px-2 rounded-full text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                              {favorites.length}
+                            </span>
+                          </button>
+                        </nav>
                       </div>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Search className="h-5 w-5 text-gray-400 dark:text-gray-500" />
-                        </div>
-                        <input
-                          type="text"
-                          placeholder="ツールを検索..."
-                          className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 sm:text-sm transition-colors"
-                          value={searchTerm}
-                          onChange={(e) =>
-                            dispatch(setSearchTerm(e.target.value))
-                          }
-                        />
-                      </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {filteredTools.map((tool) => (
-                        <ToolCard key={tool.id} {...tool} />
-                      ))}
+                      <div className="mt-6">
+                        <div className="relative mb-6">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Search className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="ツールを検索..."
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 sm:text-sm transition-colors"
+                            value={searchTerm}
+                            onChange={(e) =>
+                              dispatch(setSearchTerm(e.target.value))
+                            }
+                          />
+                        </div>
+
+                        <DragDropContext onDragEnd={handleDragEnd}>
+                          {activeTab === "all" ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              {filteredTools.map((tool) => (
+                                <ToolCard key={tool.id} {...tool} />
+                              ))}
+                            </div>
+                          ) : (
+                            <Droppable droppableId="favorites">
+                              {(provided) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                                >
+                                  {favorites.map((tool, index) => (
+                                    <DraggableToolCard
+                                      key={tool.id}
+                                      index={index}
+                                      {...tool}
+                                    />
+                                  ))}
+                                  {provided.placeholder}
+                                </div>
+                              )}
+                            </Droppable>
+                          )}
+                        </DragDropContext>
+
+                        {activeTab === "favorites" &&
+                          favorites.length === 0 && (
+                            <div className="text-center py-12">
+                              <Heart className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" />
+                              <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">
+                                お気に入りがありません
+                              </h3>
+                              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                ツールカードのハートアイコンをクリックして、お気に入りに追加できます。
+                              </p>
+                            </div>
+                          )}
+                      </div>
                     </div>
                   </div>
                 </div>
