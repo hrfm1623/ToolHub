@@ -1,6 +1,6 @@
 {
   "short_name": "ToolBox",
-  "name": "ToolBox - 開発者のためのツールコレクション",
+  "name": "ToolBox - 便利なツールコレクション",
   "icons": [
     {
       "src": "favicon.ico",
@@ -22,8 +22,8 @@
   "display": "standalone",
   "theme_color": "#4F46E5",
   "background_color": "#F9FAFB",
-  "description": "開発者のための便利なツールコレクション。VS Code拡張機能、ブラウザツール、コマンドラインツールなど、開発効率を上げるツールを簡単に見つけることができます。",
-  "categories": ["development", "tools", "productivity"],
+  "description": "日常生活で使える便利なツールコレクション。ブラウザで使えるツールやアプリなど、作業効率を上げるツールを簡単に見つけることができます。",
+  "categories": ["tools", "productivity", "utilities"],
   "screenshots": [
     {
       "src": "screenshot1.png",
