@@ -1,41 +1,40 @@
 import React from "react";
-import { SortAsc, SortDesc } from "lucide-react";
+import { SortAsc, SortDesc, Star } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import {
   togglePlatform,
-  toggleLanguage,
+  setDifficulty,
   setPriceRange,
+  setRating,
   setSortBy,
   setSortOrder,
   resetFilters,
   FilterState,
 } from "../store/filterSlice";
-import { Platform, ProgrammingLanguage } from "../types/tool";
+import { Platform, Difficulty } from "../types/tool";
 
 const platforms: { value: Platform; label: string }[] = [
-  { value: "vscode", label: "VS Code" },
-  { value: "intellij", label: "IntelliJ" },
+  { value: "windows", label: "Windows" },
+  { value: "mac", label: "Mac" },
   { value: "browser", label: "ブラウザ" },
-  { value: "cli", label: "コマンドライン" },
+  { value: "android", label: "Android" },
+  { value: "ios", label: "iOS" },
 ];
 
-const languages: { value: ProgrammingLanguage; label: string }[] = [
-  { value: "javascript", label: "JavaScript" },
-  { value: "typescript", label: "TypeScript" },
-  { value: "python", label: "Python" },
-  { value: "java", label: "Java" },
-  { value: "go", label: "Go" },
-  { value: "rust", label: "Rust" },
-  { value: "other", label: "その他" },
+const difficulties: { value: Difficulty; label: string }[] = [
+  { value: "beginner", label: "初心者向け" },
+  { value: "intermediate", label: "中級者向け" },
+  { value: "advanced", label: "上級者向け" },
 ];
 
 export const FilterPanel: React.FC = () => {
   const dispatch = useDispatch();
   const {
     selectedPlatforms,
-    selectedLanguages,
+    selectedDifficulty,
     priceRange,
+    rating,
     sortBy,
     sortOrder,
   } = useSelector((state: RootState) => state.filter);
@@ -56,7 +55,7 @@ export const FilterPanel: React.FC = () => {
 
       <div>
         <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
-          プラットフォーム
+          対応プラットフォーム
         </h3>
         <div className="space-y-2">
           {platforms.map(({ value, label }) => (
@@ -77,16 +76,17 @@ export const FilterPanel: React.FC = () => {
 
       <div>
         <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
-          プログラミング言語
+          難易度
         </h3>
         <div className="space-y-2">
-          {languages.map(({ value, label }) => (
+          {difficulties.map(({ value, label }) => (
             <label key={value} className="flex items-center">
               <input
-                type="checkbox"
-                checked={selectedLanguages.includes(value)}
-                onChange={() => dispatch(toggleLanguage(value))}
-                className="rounded border-gray-300 dark:border-gray-600 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+                type="radio"
+                checked={selectedDifficulty === value}
+                onChange={() => dispatch(setDifficulty(value))}
+                name="difficulty"
+                className="rounded-full border-gray-300 dark:border-gray-600 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 dark:focus:ring-indigo-400"
               />
               <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
                 {label}
@@ -144,6 +144,33 @@ export const FilterPanel: React.FC = () => {
 
       <div>
         <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+          評価
+        </h3>
+        <div className="flex items-center space-x-2">
+          {[5, 4, 3, 2, 1].map((value) => (
+            <button
+              key={value}
+              onClick={() =>
+                dispatch(setRating(rating === value ? null : value))
+              }
+              className={`p-2 rounded-md ${
+                rating === value
+                  ? "bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400"
+                  : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              }`}
+            >
+              <Star
+                className={`h-5 w-5 ${
+                  rating === value ? "fill-current" : "stroke-current"
+                }`}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
           並び替え
         </h3>
         <div className="flex items-center space-x-4">
@@ -154,9 +181,10 @@ export const FilterPanel: React.FC = () => {
             }
             className="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm focus:ring-indigo-500 dark:focus:ring-indigo-400"
           >
+            <option value="rating">評価</option>
+            <option value="downloadCount">人気</option>
             <option value="name">名前</option>
             <option value="category">カテゴリ</option>
-            <option value="platform">プラットフォーム</option>
           </select>
           <button
             onClick={() =>

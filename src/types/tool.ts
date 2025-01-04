@@ -15,15 +15,9 @@ export type Tutorial = {
   type: "video" | "article" | "documentation";
 };
 
-export type Platform = "vscode" | "intellij" | "browser" | "cli";
-export type ProgrammingLanguage =
-  | "javascript"
-  | "typescript"
-  | "python"
-  | "java"
-  | "go"
-  | "rust"
-  | "other";
+export type Platform = "windows" | "mac" | "browser" | "android" | "ios";
+
+export type Difficulty = "beginner" | "intermediate" | "advanced";
 
 export interface Tool {
   id: string;
@@ -37,19 +31,13 @@ export interface Tool {
   tutorials?: Tutorial[];
   pricing?: PricingPlan[];
   platforms?: Platform[];
-  languages?: ProgrammingLanguage[];
-  githubUrl?: string;
-  documentationUrl?: string;
+  difficulty?: Difficulty;
+  features?: string[];
+  lastUpdated?: string;
+  rating?: number;
+  downloadCount?: number;
   relatedTools?: string[]; // Tool IDs
   alternativeTools?: string[]; // Tool IDs
-  installCommands?: {
-    npm?: string;
-    yarn?: string;
-    pnpm?: string;
-    pip?: string;
-    cargo?: string;
-    go?: string;
-  };
 }
 
 export interface FavoriteTool extends Tool {

@@ -1,16 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Platform, ProgrammingLanguage } from "../types/tool";
+import { Platform, Difficulty } from "../types/tool";
 
 export interface FilterState {
   searchTerm: string;
   selectedCategory: string;
   selectedPlatforms: Platform[];
-  selectedLanguages: ProgrammingLanguage[];
+  selectedDifficulty: Difficulty | null;
   priceRange: {
     min: number | null;
     max: number | null;
   };
-  sortBy: "name" | "category" | "platform";
+  rating: number | null;
+  sortBy: "name" | "category" | "rating" | "downloadCount";
   sortOrder: "asc" | "desc";
 }
 
@@ -18,13 +19,14 @@ const initialState: FilterState = {
   searchTerm: "",
   selectedCategory: "",
   selectedPlatforms: [],
-  selectedLanguages: [],
+  selectedDifficulty: null,
   priceRange: {
     min: null,
     max: null,
   },
-  sortBy: "name",
-  sortOrder: "asc",
+  rating: null,
+  sortBy: "rating",
+  sortOrder: "desc",
 };
 
 export const filterSlice = createSlice({
@@ -46,20 +48,17 @@ export const filterSlice = createSlice({
         state.selectedPlatforms.splice(index, 1);
       }
     },
-    toggleLanguage: (state, action: PayloadAction<ProgrammingLanguage>) => {
-      const language = action.payload;
-      const index = state.selectedLanguages.indexOf(language);
-      if (index === -1) {
-        state.selectedLanguages.push(language);
-      } else {
-        state.selectedLanguages.splice(index, 1);
-      }
+    setDifficulty: (state, action: PayloadAction<Difficulty | null>) => {
+      state.selectedDifficulty = action.payload;
     },
     setPriceRange: (
       state,
       action: PayloadAction<{ min: number | null; max: number | null }>
     ) => {
       state.priceRange = action.payload;
+    },
+    setRating: (state, action: PayloadAction<number | null>) => {
+      state.rating = action.payload;
     },
     setSortBy: (state, action: PayloadAction<FilterState["sortBy"]>) => {
       state.sortBy = action.payload;
@@ -75,8 +74,9 @@ export const {
   setSearchTerm,
   setSelectedCategory,
   togglePlatform,
-  toggleLanguage,
+  setDifficulty,
   setPriceRange,
+  setRating,
   setSortBy,
   setSortOrder,
   resetFilters,
