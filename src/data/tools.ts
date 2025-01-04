@@ -39,10 +39,8 @@ export const tools: Tool[] = [
     icon: Github,
     url: "https://github.com",
     category: "バージョン管理",
-    githubUrl: "https://github.com/github",
-    documentationUrl: "https://docs.github.com",
-    platforms: ["browser", "cli"],
-    languages: ["javascript", "typescript", "python", "java", "go", "rust"],
+    platforms: ["windows", "mac", "browser"],
+    difficulty: "intermediate",
     longDescription:
       "GitHubは、世界最大のソフトウェア開発プラットフォームです。オープンソースプロジェクトのホスティング、バージョン管理、コードレビュー、イシュー管理など、包括的な開発ワークフローをサポートします。",
     pricing: [
@@ -71,6 +69,8 @@ export const tools: Tool[] = [
         ],
       },
     ],
+    rating: 4.8,
+    downloadCount: 5000000,
   },
   {
     id: "figma",
@@ -80,10 +80,11 @@ export const tools: Tool[] = [
     url: "https://www.figma.com",
     category: "デザイン",
     platforms: ["browser"],
-    languages: ["typescript"],
-    documentationUrl: "https://help.figma.com",
+    difficulty: "intermediate",
     longDescription:
       "Figmaは、チームでのデザイン作業を効率化するためのクラウドベースのデザインツールです。リアルタイムコラボレーション、プロトタイピング、デザインシステムの管理などの機能を提供します。",
+    rating: 4.7,
+    downloadCount: 2000000,
   },
   {
     id: "vscode",
@@ -92,12 +93,12 @@ export const tools: Tool[] = [
     icon: Code,
     url: "https://code.visualstudio.com",
     category: "開発ツール",
-    githubUrl: "https://github.com/microsoft/vscode",
-    documentationUrl: "https://code.visualstudio.com/docs",
-    platforms: ["vscode"],
-    languages: ["javascript", "typescript", "python", "java", "go", "rust"],
-    relatedTools: ["github"],
-    alternativeTools: ["intellij"],
+    platforms: ["windows", "mac"],
+    difficulty: "intermediate",
+    longDescription:
+      "Microsoft社が開発した無料のコードエディタ。豊富な拡張機能と使いやすいインターフェースで、プログラミングの効率を大幅に向上させます。",
+    rating: 4.8,
+    downloadCount: 3000000,
   },
   {
     id: "image-optimizer",
@@ -117,10 +118,12 @@ export const tools: Tool[] = [
     icon: FileText,
     url: "https://jsonformatter.org",
     category: "開発ツール",
-    platforms: ["browser", "vscode"],
-    languages: ["javascript"],
+    platforms: ["browser"],
+    difficulty: "intermediate",
     longDescription:
       "JSONデータを見やすく整形し、構文の検証も行えるオンラインツール。データの圧縮や展開、異なるフォーマット間の変換にも対応しています。",
+    rating: 4.2,
+    downloadCount: 500000,
   },
   {
     id: "unit-converter",
@@ -173,10 +176,12 @@ export const tools: Tool[] = [
     icon: Hash,
     url: "https://passwordsgenerator.net/sha256-hash-generator",
     category: "開発ツール",
-    platforms: ["browser", "cli"],
-    languages: ["javascript"],
+    platforms: ["browser"],
+    difficulty: "intermediate",
     longDescription:
       "MD5、SHA-1、SHA-256など、様々なハッシュアルゴリズムに対応したハッシュ値生成ツール。",
+    rating: 4.0,
+    downloadCount: 300000,
   },
   {
     id: "lorem-ipsum",
@@ -202,15 +207,43 @@ export const tools: Tool[] = [
     relatedTools: ["figma"],
   },
   {
-    id: "amazon-url-shortener",
-    title: "Amazon URL Shortener",
-    description: "Amazonの商品URLを短縮・整形",
+    id: "url-shortener",
+    title: "URL Shortener",
+    description: "長いURLを短く簡潔に変換",
     icon: Link,
-    url: "https://amazon-url-shortener.vercel.app",
+    url: "https://bitly.com",
     category: "URL管理",
     platforms: ["browser"],
     longDescription:
-      "Amazonの長いURLから不要なパラメータを削除し、シンプルで共有しやすいURLに変換します。アフィリエイトパラメータの付与にも対応。",
+      "長いURLを短く、共有しやすい形式に変換できるサービス。クリック数の追跡やカスタムドメインにも対応しています。",
+    pricing: [
+      {
+        name: "Free",
+        price: 0,
+        currency: "USD",
+        billingPeriod: "free",
+        features: [
+          "月50URLまで短縮可能",
+          "基本的なクリック分析",
+          "QRコード生成",
+        ],
+      },
+      {
+        name: "Basic",
+        price: 8,
+        currency: "USD",
+        billingPeriod: "monthly",
+        features: [
+          "無制限のURL短縮",
+          "詳細な分析機能",
+          "カスタムバックハーフ",
+          "URLのタグ付け",
+        ],
+      },
+    ],
+    rating: 4.5,
+    downloadCount: 1000000,
+    difficulty: "beginner",
   },
   {
     id: "temp-mail",
@@ -230,7 +263,8 @@ export const tools: Tool[] = [
     icon: Languages,
     url: "https://www.deepl.com/translator",
     category: "翻訳",
-    platforms: ["browser", "vscode"],
+    platforms: ["windows", "mac", "browser", "android", "ios"],
+    difficulty: "beginner",
     longDescription:
       "AIを活用した高精度な翻訳サービス。自然な翻訳結果と専門用語への対応が特徴で、ビジネス文書や技術文書の翻訳に最適です。",
     pricing: [
@@ -258,6 +292,8 @@ export const tools: Tool[] = [
         ],
       },
     ],
+    rating: 4.6,
+    downloadCount: 1500000,
   },
   {
     id: "file-converter",
@@ -277,15 +313,12 @@ export const tools: Tool[] = [
     icon: Download,
     url: "https://yt-dl.org",
     category: "ダウンロード",
-    platforms: ["cli"],
-    languages: ["python"],
-    githubUrl: "https://github.com/yt-dlp/yt-dlp",
-    documentationUrl: "https://github.com/yt-dlp/yt-dlp#readme",
+    platforms: ["windows", "mac"],
+    difficulty: "intermediate",
     longDescription:
-      "YouTubeやその他の動画サイトから動画をダウンロードできるコマンドラインツール。様々な品質オプションや字幕のダウンロードにも対応。",
-    installCommands: {
-      pip: "pip install yt-dlp",
-    },
+      "YouTubeやその他の動画サイトから動画をダウンロードできるツール。様々な品質オプションや字幕のダウンロードにも対応。",
+    rating: 4.3,
+    downloadCount: 800000,
   },
   {
     id: "share-files",
