@@ -1,48 +1,62 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Tool } from "../types/tool";
 
-export interface FavoriteState {
+const STORAGE_KEY = "toolhub_favorites";
+
+interface FavoriteState {
   tools: Tool[];
-  order: string[];
 }
 
-const initialState: FavoriteState = {
-  tools: [],
-  order: [],
+// LocalStorageから初期状態を読み込む
+const loadInitialState = (): FavoriteState => {
+  try {
+    const savedState = localStorage.getItem(STORAGE_KEY);
+    return savedState ? JSON.parse(savedState) : { tools: [] };
+  } catch (error) {
+    console.error("Failed to load favorites from localStorage:", error);
+    return { tools: [] };
+  }
 };
+
+const initialState: FavoriteState = loadInitialState();
 
 export const favoriteSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
-    toggleFavorite: (state, action: PayloadAction<Tool>) => {
-      const index = state.tools.findIndex(
-        (tool) => tool.id === action.payload.id
-      );
-      if (index === -1) {
+    addFavorite: (state, action: PayloadAction<Tool>) => {
+      if (!state.tools.some((tool) => tool.id === action.payload.id)) {
         state.tools.push(action.payload);
-        state.order.push(action.payload.id);
-      } else {
-        state.tools.splice(index, 1);
-        state.order = state.order.filter((id) => id !== action.payload.id);
+        // LocalStorageに保存
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (error) {
+          console.error("Failed to save favorites to localStorage:", error);
+        }
       }
     },
-    reorderFavorites: (
-      state,
-      action: PayloadAction<{ startIndex: number; endIndex: number }>
-    ) => {
-      const { startIndex, endIndex } = action.payload;
-      const [removed] = state.order.splice(startIndex, 1);
-      state.order.splice(endIndex, 0, removed);
-
-      const orderedTools = state.order.map(
-        (id) => state.tools.find((tool) => tool.id === id)!
-      );
-      state.tools = orderedTools;
+    removeFavorite: (state, action: PayloadAction<string>) => {
+      state.tools = state.tools.filter((tool) => tool.id !== action.payload);
+      // LocalStorageに保存
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (error) {
+        console.error("Failed to save favorites to localStorage:", error);
+      }
+    },
+    reorderFavorites: (state, action: PayloadAction<Tool[]>) => {
+      state.tools = action.payload;
+      // LocalStorageに保存
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (error) {
+        console.error("Failed to save favorites to localStorage:", error);
+      }
     },
   },
 });
 
-export const { toggleFavorite, reorderFavorites } = favoriteSlice.actions;
+export const { addFavorite, removeFavorite, reorderFavorites } =
+  favoriteSlice.actions;
 
 export default favoriteSlice.reducer;
