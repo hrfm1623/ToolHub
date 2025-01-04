@@ -15,7 +15,7 @@ export type Tutorial = {
   type: "video" | "article" | "documentation";
 };
 
-export type Platform = "windows" | "mac" | "linux" | "web" | "mobile";
+export type Platform = "vscode" | "intellij" | "browser" | "cli";
 export type ProgrammingLanguage =
   | "javascript"
   | "typescript"

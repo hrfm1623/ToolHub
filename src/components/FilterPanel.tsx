@@ -13,15 +13,21 @@ import {
 } from "../store/filterSlice";
 import { Platform, ProgrammingLanguage } from "../types/tool";
 
-const platforms: Platform[] = ["windows", "mac", "linux", "web", "mobile"];
-const languages: ProgrammingLanguage[] = [
-  "javascript",
-  "typescript",
-  "python",
-  "java",
-  "go",
-  "rust",
-  "other",
+const platforms: { value: Platform; label: string }[] = [
+  { value: "vscode", label: "VS Code" },
+  { value: "intellij", label: "IntelliJ" },
+  { value: "browser", label: "ブラウザ" },
+  { value: "cli", label: "コマンドライン" },
+];
+
+const languages: { value: ProgrammingLanguage; label: string }[] = [
+  { value: "javascript", label: "JavaScript" },
+  { value: "typescript", label: "TypeScript" },
+  { value: "python", label: "Python" },
+  { value: "java", label: "Java" },
+  { value: "go", label: "Go" },
+  { value: "rust", label: "Rust" },
+  { value: "other", label: "その他" },
 ];
 
 export const FilterPanel: React.FC = () => {
@@ -53,16 +59,16 @@ export const FilterPanel: React.FC = () => {
           プラットフォーム
         </h3>
         <div className="space-y-2">
-          {platforms.map((platform) => (
-            <label key={platform} className="flex items-center">
+          {platforms.map(({ value, label }) => (
+            <label key={value} className="flex items-center">
               <input
                 type="checkbox"
-                checked={selectedPlatforms.includes(platform)}
-                onChange={() => dispatch(togglePlatform(platform))}
+                checked={selectedPlatforms.includes(value)}
+                onChange={() => dispatch(togglePlatform(value))}
                 className="rounded border-gray-300 dark:border-gray-600 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 dark:focus:ring-indigo-400"
               />
-              <span className="ml-2 text-sm text-gray-700 dark:text-gray-300 capitalize">
-                {platform}
+              <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                {label}
               </span>
             </label>
           ))}
@@ -74,16 +80,16 @@ export const FilterPanel: React.FC = () => {
           プログラミング言語
         </h3>
         <div className="space-y-2">
-          {languages.map((language) => (
-            <label key={language} className="flex items-center">
+          {languages.map(({ value, label }) => (
+            <label key={value} className="flex items-center">
               <input
                 type="checkbox"
-                checked={selectedLanguages.includes(language)}
-                onChange={() => dispatch(toggleLanguage(language))}
+                checked={selectedLanguages.includes(value)}
+                onChange={() => dispatch(toggleLanguage(value))}
                 className="rounded border-gray-300 dark:border-gray-600 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 dark:focus:ring-indigo-400"
               />
-              <span className="ml-2 text-sm text-gray-700 dark:text-gray-300 capitalize">
-                {language}
+              <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                {label}
               </span>
             </label>
           ))}

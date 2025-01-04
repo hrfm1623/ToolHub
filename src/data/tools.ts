@@ -24,7 +24,7 @@ export const tools: Tool[] = [
     category: "バージョン管理",
     githubUrl: "https://github.com/github",
     documentationUrl: "https://docs.github.com",
-    platforms: ["web"],
+    platforms: ["browser", "cli"],
     languages: ["javascript", "typescript", "python", "java", "go", "rust"],
     longDescription:
       "GitHubは、世界最大のソフトウェア開発プラットフォームです。オープンソースプロジェクトのホスティング、バージョン管理、コードレビュー、イシュー管理など、包括的な開発ワークフローをサポートします。",
@@ -62,7 +62,7 @@ export const tools: Tool[] = [
     icon: Figma,
     url: "https://www.figma.com",
     category: "デザイン",
-    platforms: ["web"],
+    platforms: ["browser"],
     languages: ["typescript"],
     documentationUrl: "https://help.figma.com",
     longDescription:
@@ -77,10 +77,10 @@ export const tools: Tool[] = [
     category: "開発ツール",
     githubUrl: "https://github.com/microsoft/vscode",
     documentationUrl: "https://code.visualstudio.com/docs",
-    platforms: ["windows", "mac", "linux"],
+    platforms: ["vscode"],
     languages: ["javascript", "typescript", "python", "java", "go", "rust"],
     relatedTools: ["github"],
-    alternativeTools: ["sublime-text", "atom"],
+    alternativeTools: ["intellij"],
   },
   {
     id: "image-optimizer",
@@ -89,7 +89,7 @@ export const tools: Tool[] = [
     icon: Image,
     url: "https://squoosh.app",
     category: "画像処理",
-    platforms: ["web"],
+    platforms: ["browser"],
     longDescription:
       "ブラウザベースの高度な画像最適化ツール。様々なフォーマットに対応し、プレビューを確認しながら最適な設定を選択できます。",
   },
@@ -100,7 +100,7 @@ export const tools: Tool[] = [
     icon: FileText,
     url: "https://jsonformatter.org",
     category: "開発ツール",
-    platforms: ["web"],
+    platforms: ["browser", "vscode"],
     languages: ["javascript"],
     longDescription:
       "JSONデータを見やすく整形し、構文の検証も行えるオンラインツール。データの圧縮や展開、異なるフォーマット間の変換にも対応しています。",
@@ -112,7 +112,7 @@ export const tools: Tool[] = [
     icon: Calculator,
     url: "https://unitconverters.net",
     category: "ユーティリティ",
-    platforms: ["web"],
+    platforms: ["browser"],
     longDescription:
       "長さ、重さ、温度など、あらゆる単位の変換に対応したツール。直感的なインターフェースで素早く正確な変換が可能です。",
   },
@@ -123,7 +123,7 @@ export const tools: Tool[] = [
     icon: Clock,
     url: "https://worldtimebuddy.com",
     category: "時間管理",
-    platforms: ["web", "mobile"],
+    platforms: ["browser"],
     longDescription:
       "世界中の時刻を一目で確認できるツール。ミーティングのスケジュール調整やリモートワークでの時差確認に便利です。",
   },
@@ -134,7 +134,7 @@ export const tools: Tool[] = [
     icon: Calendar,
     url: "https://timeanddate.com/date/duration.html",
     category: "時間管理",
-    platforms: ["web"],
+    platforms: ["browser"],
     longDescription:
       "日付間の期間計算、特定の日数後の日付算出など、日付に関する計算を簡単に行えるツール。",
   },
@@ -145,7 +145,7 @@ export const tools: Tool[] = [
     icon: QrCode,
     url: "https://qr-code-generator.com",
     category: "ユーティリティ",
-    platforms: ["web"],
+    platforms: ["browser"],
     longDescription:
       "様々なデータ形式に対応したQRコード生成ツール。カスタマイズ可能なデザインオプションも提供しています。",
   },
@@ -156,7 +156,7 @@ export const tools: Tool[] = [
     icon: Hash,
     url: "https://passwordsgenerator.net/sha256-hash-generator",
     category: "開発ツール",
-    platforms: ["web"],
+    platforms: ["browser", "cli"],
     languages: ["javascript"],
     longDescription:
       "MD5、SHA-1、SHA-256など、様々なハッシュアルゴリズムに対応したハッシュ値生成ツール。",
@@ -168,7 +168,7 @@ export const tools: Tool[] = [
     icon: Type,
     url: "https://loremipsum.io",
     category: "コンテンツ",
-    platforms: ["web"],
+    platforms: ["browser"],
     longDescription:
       "デザインやレイアウトの確認用に、様々な長さやフォーマットのダミーテキストを生成できるツール。",
   },
@@ -179,7 +179,7 @@ export const tools: Tool[] = [
     icon: Palette,
     url: "https://coolors.co",
     category: "デザイン",
-    platforms: ["web"],
+    platforms: ["browser"],
     longDescription:
       "カラーパレットの生成や編集、保存が可能なツール。色のハーモニーやアクセシビリティも考慮したパレット作成をサポートします。",
     relatedTools: ["figma"],
