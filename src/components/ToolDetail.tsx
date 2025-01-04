@@ -124,24 +124,24 @@ export const ToolDetail: React.FC<ToolDetailProps> = ({
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center text-gray-600 hover:text-gray-900 mb-8"
+          className="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white mb-8"
         >
           <ArrowLeft className="h-5 w-5 mr-2" />
           戻る
         </button>
 
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-16 h-16 text-indigo-600">
+              <div className="w-16 h-16 text-indigo-600 dark:text-indigo-400">
                 <tool.icon />
               </div>
               <div className="ml-6">
-                <h1 className="text-3xl font-bold text-gray-900">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                   {tool.title}
                 </h1>
                 <div className="flex items-center mt-2 space-x-4">
@@ -150,7 +150,7 @@ export const ToolDetail: React.FC<ToolDetailProps> = ({
                       href={tool.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center text-gray-600 hover:text-gray-900"
+                      className="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                     >
                       <Github className="h-5 w-5 mr-1" />
                       GitHub
@@ -161,7 +161,7 @@ export const ToolDetail: React.FC<ToolDetailProps> = ({
                       href={tool.documentationUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center text-gray-600 hover:text-gray-900"
+                      className="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                     >
                       <Book className="h-5 w-5 mr-1" />
                       ドキュメント
@@ -171,7 +171,7 @@ export const ToolDetail: React.FC<ToolDetailProps> = ({
                     href={tool.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center text-gray-600 hover:text-gray-900"
+                    className="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                   >
                     <ExternalLink className="h-5 w-5 mr-1" />
                     公式サイト
@@ -181,22 +181,22 @@ export const ToolDetail: React.FC<ToolDetailProps> = ({
             </div>
           </div>
 
-          <div className="mt-8 prose prose-indigo max-w-none">
-            <p className="text-gray-600">
+          <div className="mt-8 prose prose-indigo dark:prose-invert max-w-none">
+            <p className="text-gray-600 dark:text-gray-300">
               {tool.longDescription || tool.description}
             </p>
           </div>
 
           {tool.platforms && (
             <div className="mt-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                 対応プラットフォーム
               </h3>
               <div className="flex flex-wrap gap-2">
                 {tool.platforms.map((platform) => (
                   <span
                     key={platform}
-                    className="px-3 py-1 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-full"
+                    className="px-3 py-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/50 rounded-full"
                   >
                     {platform}
                   </span>
@@ -207,14 +207,14 @@ export const ToolDetail: React.FC<ToolDetailProps> = ({
 
           {tool.languages && (
             <div className="mt-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                 対応言語
               </h3>
               <div className="flex flex-wrap gap-2">
                 {tool.languages.map((language) => (
                   <span
                     key={language}
-                    className="px-3 py-1 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-full"
+                    className="px-3 py-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/50 rounded-full"
                   >
                     {language}
                   </span>
@@ -231,23 +231,25 @@ export const ToolDetail: React.FC<ToolDetailProps> = ({
             <div className="mt-12 grid gap-8 md:grid-cols-2">
               {relatedTools.length > 0 && (
                 <div>
-                  <h3 className="text-xl font-semibold mb-4">関連ツール</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                    関連ツール
+                  </h3>
                   <div className="space-y-4">
                     {relatedTools.map((relatedTool) => (
                       <button
                         key={relatedTool.id}
                         onClick={() => navigate(`/tools/${relatedTool.id}`)}
-                        className="block w-full text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100"
+                        className="block w-full text-left p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600"
                       >
                         <div className="flex items-center">
-                          <div className="w-8 h-8 text-indigo-600">
+                          <div className="w-8 h-8 text-indigo-600 dark:text-indigo-400">
                             <relatedTool.icon />
                           </div>
                           <div className="ml-3">
-                            <h4 className="font-medium text-gray-900">
+                            <h4 className="font-medium text-gray-900 dark:text-white">
                               {relatedTool.title}
                             </h4>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
                               {relatedTool.description}
                             </p>
                           </div>
@@ -260,23 +262,25 @@ export const ToolDetail: React.FC<ToolDetailProps> = ({
 
               {alternativeTools.length > 0 && (
                 <div>
-                  <h3 className="text-xl font-semibold mb-4">代替ツール</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                    代替ツール
+                  </h3>
                   <div className="space-y-4">
                     {alternativeTools.map((altTool) => (
                       <button
                         key={altTool.id}
                         onClick={() => navigate(`/tools/${altTool.id}`)}
-                        className="block w-full text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100"
+                        className="block w-full text-left p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600"
                       >
                         <div className="flex items-center">
-                          <div className="w-8 h-8 text-indigo-600">
+                          <div className="w-8 h-8 text-indigo-600 dark:text-indigo-400">
                             <altTool.icon />
                           </div>
                           <div className="ml-3">
-                            <h4 className="font-medium text-gray-900">
+                            <h4 className="font-medium text-gray-900 dark:text-white">
                               {altTool.title}
                             </h4>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
                               {altTool.description}
                             </p>
                           </div>

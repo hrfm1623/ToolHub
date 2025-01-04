@@ -40,19 +40,21 @@ export const ToolCard: React.FC<ToolCardProps> = ({
   return (
     <Link
       to={`/tools/${id}`}
-      className={`block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow ${className}`}
+      className={`block bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-all ${className}`}
     >
       <div className="flex justify-between items-start">
         <div className="flex items-center">
-          <div className="w-10 h-10 text-indigo-600">
+          <div className="w-10 h-10 text-indigo-600 dark:text-indigo-400">
             <Icon />
           </div>
-          <h3 className="ml-3 text-lg font-medium text-gray-900">{title}</h3>
+          <h3 className="ml-3 text-lg font-medium text-gray-900 dark:text-white">
+            {title}
+          </h3>
         </div>
         <button
           onClick={handleFavoriteClick}
-          className={`p-2 rounded-full hover:bg-gray-100 ${
-            isFavorite ? "text-yellow-500" : "text-gray-400"
+          className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 ${
+            isFavorite ? "text-yellow-500" : "text-gray-400 dark:text-gray-500"
           }`}
         >
           <Star
@@ -61,16 +63,18 @@ export const ToolCard: React.FC<ToolCardProps> = ({
           />
         </button>
       </div>
-      <p className="mt-2 text-sm text-gray-600">{description}</p>
+      <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+        {description}
+      </p>
       <div className="mt-4 flex justify-between items-center">
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">
           {category}
         </span>
         <a
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+          className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
           onClick={(e) => e.stopPropagation()}
         >
           詳細を見る →
