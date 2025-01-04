@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Search, Wrench } from "lucide-react";
 import {
   BrowserRouter as Router,
@@ -6,12 +6,14 @@ import {
   Route,
   useParams,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToolCard } from "./components/ToolCard";
 import { ToolDetail } from "./components/ToolDetail";
 import { ThemeToggle } from "./components/ThemeToggle";
+import { FilterPanel } from "./components/FilterPanel";
 import { tools } from "./data/tools";
 import { RootState } from "./store/store";
+import { setSearchTerm } from "./store/filterSlice";
 
 const ToolDetailWrapper = () => {
   const { id } = useParams<{ id: string }>();
@@ -35,9 +37,17 @@ const ToolDetailWrapper = () => {
 };
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const dispatch = useDispatch();
   const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
+  const {
+    searchTerm,
+    selectedCategory,
+    selectedPlatforms,
+    selectedLanguages,
+    priceRange,
+    sortBy,
+    sortOrder,
+  } = useSelector((state: RootState) => state.filter);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -47,16 +57,68 @@ function App() {
     }
   }, [isDarkMode]);
 
-  const categories = Array.from(new Set(tools.map((tool) => tool.category)));
+  const filteredTools = tools
+    .filter((tool) => {
+      // テキスト検索
+      const matchesSearch =
+        tool.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        tool.description.toLowerCase().includes(searchTerm.toLowerCase());
 
-  const filteredTools = tools.filter((tool) => {
-    const matchesSearch =
-      tool.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tool.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      !selectedCategory || tool.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+      // カテゴリフィルター
+      const matchesCategory =
+        !selectedCategory || tool.category === selectedCategory;
+
+      // プラットフォームフィルター
+      const matchesPlatform =
+        selectedPlatforms.length === 0 ||
+        (tool.platforms &&
+          tool.platforms.some((platform) =>
+            selectedPlatforms.includes(platform)
+          ));
+
+      // 言語フィルター
+      const matchesLanguage =
+        selectedLanguages.length === 0 ||
+        (tool.languages &&
+          tool.languages.some((language) =>
+            selectedLanguages.includes(language)
+          ));
+
+      // 価格フィルター
+      const matchesPrice =
+        (!priceRange.min && !priceRange.max) ||
+        (tool.pricing &&
+          tool.pricing.some(
+            (plan) =>
+              (!priceRange.min || plan.price >= priceRange.min) &&
+              (!priceRange.max || plan.price <= priceRange.max)
+          ));
+
+      return (
+        matchesSearch &&
+        matchesCategory &&
+        matchesPlatform &&
+        matchesLanguage &&
+        matchesPrice
+      );
+    })
+    .sort((a, b) => {
+      let comparison = 0;
+      switch (sortBy) {
+        case "name":
+          comparison = a.title.localeCompare(b.title);
+          break;
+        case "category":
+          comparison = a.category.localeCompare(b.category);
+          break;
+        case "platform":
+          comparison = (a.platforms?.[0] || "").localeCompare(
+            b.platforms?.[0] || ""
+          );
+          break;
+      }
+      return sortOrder === "asc" ? comparison : -comparison;
+    });
 
   return (
     <Router>
@@ -81,50 +143,34 @@ function App() {
               </header>
 
               <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="mb-8">
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Search className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                  <div className="lg:col-span-1">
+                    <FilterPanel />
+                  </div>
+                  <div className="lg:col-span-3">
+                    <div className="mb-8">
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <Search className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Search tools..."
+                          className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 sm:text-sm transition-colors"
+                          value={searchTerm}
+                          onChange={(e) =>
+                            dispatch(setSearchTerm(e.target.value))
+                          }
+                        />
+                      </div>
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Search tools..."
-                      className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 sm:text-sm transition-colors"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                  </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <button
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                        !selectedCategory
-                          ? "bg-indigo-600 dark:bg-indigo-500 text-white"
-                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-                      }`}
-                      onClick={() => setSelectedCategory("")}
-                    >
-                      All
-                    </button>
-                    {categories.map((category) => (
-                      <button
-                        key={category}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                          selectedCategory === category
-                            ? "bg-indigo-600 dark:bg-indigo-500 text-white"
-                            : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-                        }`}
-                        onClick={() => setSelectedCategory(category)}
-                      >
-                        {category}
-                      </button>
-                    ))}
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredTools.map((tool) => (
-                    <ToolCard key={tool.id} {...tool} />
-                  ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {filteredTools.map((tool) => (
+                        <ToolCard key={tool.id} {...tool} />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </main>
             </div>
