@@ -1,39 +1,81 @@
-import React from 'react';
-import { ExternalLink } from 'lucide-react';
+import React from "react";
+import { Star } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Tool } from "../types/tool";
+import { RootState } from "../store/store";
+import { addFavorite, removeFavorite } from "../store/favoriteSlice";
 
-interface ToolCardProps {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  url: string;
-  category: string;
+interface ToolCardProps extends Tool {
+  className?: string;
 }
 
-export function ToolCard({ title, description, icon, url, category }: ToolCardProps) {
-  return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block group bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden"
-    >
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="text-indigo-600 w-8 h-8">
-            {icon}
-          </div>
-          <ExternalLink className="w-5 h-5 text-gray-400 group-hover:text-indigo-600 transition-colors" />
-        </div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-indigo-600 transition-colors">
-          {title}
-        </h3>
-        <p className="text-gray-600 text-sm">{description}</p>
-        <div className="mt-4">
-          <span className="inline-block px-3 py-1 text-xs font-medium text-indigo-600 bg-indigo-50 rounded-full">
-            {category}
-          </span>
-        </div>
-      </div>
-    </a>
+export const ToolCard: React.FC<ToolCardProps> = ({
+  id,
+  title,
+  description,
+  icon: Icon,
+  url,
+  category,
+  className = "",
+}) => {
+  const dispatch = useDispatch();
+  const favorites = useSelector(
+    (state: RootState) => state.favorites.favorites
   );
-}
+  const isFavorite = favorites.some((tool) => tool.id === id);
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isFavorite) {
+      dispatch(removeFavorite(id));
+    } else {
+      dispatch(
+        addFavorite({ id, title, description, icon: Icon, url, category })
+      );
+    }
+  };
+
+  return (
+    <Link
+      to={`/tools/${id}`}
+      className={`block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow ${className}`}
+    >
+      <div className="flex justify-between items-start">
+        <div className="flex items-center">
+          <div className="w-10 h-10 text-indigo-600">
+            <Icon />
+          </div>
+          <h3 className="ml-3 text-lg font-medium text-gray-900">{title}</h3>
+        </div>
+        <button
+          onClick={handleFavoriteClick}
+          className={`p-2 rounded-full hover:bg-gray-100 ${
+            isFavorite ? "text-yellow-500" : "text-gray-400"
+          }`}
+        >
+          <Star
+            className="w-5 h-5"
+            fill={isFavorite ? "currentColor" : "none"}
+          />
+        </button>
+      </div>
+      <p className="mt-2 text-sm text-gray-600">{description}</p>
+      <div className="mt-4 flex justify-between items-center">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+          {category}
+        </span>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+          onClick={(e) => e.stopPropagation()}
+        >
+          詳細を見る →
+        </a>
+      </div>
+    </Link>
+  );
+};

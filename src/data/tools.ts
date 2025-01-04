@@ -1,77 +1,72 @@
-import { 
-  Image, 
-  FileText, 
-  Calculator, 
-  Clock, 
-  Calendar,
-  QrCode,
-  Hash,
-  Type,
-  Palette
-} from 'lucide-react';
+import { Tool } from "../types/tool";
+import { Github, Figma, Code } from "lucide-react";
 
-export const tools = [
+export const tools: Tool[] = [
   {
-    title: 'Image Optimizer',
-    description: 'Compress and optimize your images without quality loss',
-    icon: Image,
-    url: 'https://squoosh.app',
-    category: 'Images'
+    id: "github",
+    title: "GitHub",
+    description: "ソースコード管理とコラボレーションのためのプラットフォーム",
+    icon: Github,
+    url: "https://github.com",
+    category: "バージョン管理",
+    githubUrl: "https://github.com/github",
+    documentationUrl: "https://docs.github.com",
+    platforms: ["web"],
+    languages: ["javascript", "typescript", "python", "java", "go", "rust"],
+    longDescription:
+      "GitHubは、世界最大のソフトウェア開発プラットフォームです。オープンソースプロジェクトのホスティング、バージョン管理、コードレビュー、イシュー管理など、包括的な開発ワークフローをサポートします。",
+    pricing: [
+      {
+        name: "Free",
+        price: 0,
+        currency: "USD",
+        billingPeriod: "free",
+        features: [
+          "無制限のパブリックリポジトリ",
+          "無制限のプライベートリポジトリ",
+          "基本的なイシュー管理",
+          "GitHub Actions（月2,000分）",
+        ],
+      },
+      {
+        name: "Team",
+        price: 4,
+        currency: "USD",
+        billingPeriod: "monthly",
+        features: [
+          "すべてのFree機能",
+          "プロジェクト管理",
+          "チームレビュー",
+          "ドラフトプルリクエスト",
+        ],
+      },
+    ],
   },
   {
-    title: 'JSON Formatter',
-    description: 'Format and validate JSON data with syntax highlighting',
-    icon: FileText,
-    url: 'https://jsonformatter.org',
-    category: 'Development'
+    id: "figma",
+    title: "Figma",
+    description: "ブラウザベースのUIデザインツール",
+    icon: Figma,
+    url: "https://www.figma.com",
+    category: "デザイン",
+    platforms: ["web"],
+    languages: ["typescript"],
+    documentationUrl: "https://help.figma.com",
+    longDescription:
+      "Figmaは、チームでのデザイン作業を効率化するためのクラウドベースのデザインツールです。リアルタイムコラボレーション、プロトタイピング、デザインシステムの管理などの機能を提供します。",
   },
   {
-    title: 'Unit Converter',
-    description: 'Convert between different units of measurement',
-    icon: Calculator,
-    url: 'https://unitconverters.net',
-    category: 'Utilities'
+    id: "vscode",
+    title: "Visual Studio Code",
+    description: "軽量で高機能なコードエディタ",
+    icon: Code,
+    url: "https://code.visualstudio.com",
+    category: "開発ツール",
+    githubUrl: "https://github.com/microsoft/vscode",
+    documentationUrl: "https://code.visualstudio.com/docs",
+    platforms: ["windows", "mac", "linux"],
+    languages: ["javascript", "typescript", "python", "java", "go", "rust"],
+    relatedTools: ["github"],
+    alternativeTools: ["sublime-text", "atom"],
   },
-  {
-    title: 'World Clock',
-    description: 'Check time across different time zones',
-    icon: Clock,
-    url: 'https://worldtimebuddy.com',
-    category: 'Time'
-  },
-  {
-    title: 'Date Calculator',
-    description: 'Calculate dates, duration between dates, and more',
-    icon: Calendar,
-    url: 'https://timeanddate.com/date/duration.html',
-    category: 'Time'
-  },
-  {
-    title: 'QR Code Generator',
-    description: 'Create QR codes for URLs, text, and more',
-    icon: QrCode,
-    url: 'https://qr-code-generator.com',
-    category: 'Utilities'
-  },
-  {
-    title: 'Hash Generator',
-    description: 'Generate MD5, SHA-1, SHA-256 hashes',
-    icon: Hash,
-    url: 'https://passwordsgenerator.net/sha256-hash-generator',
-    category: 'Development'
-  },
-  {
-    title: 'Lorem Ipsum Generator',
-    description: 'Generate placeholder text for designs',
-    icon: Type,
-    url: 'https://loremipsum.io',
-    category: 'Content'
-  },
-  {
-    title: 'Color Palette Generator',
-    description: 'Create beautiful color schemes for your projects',
-    icon: Palette,
-    url: 'https://coolors.co',
-    category: 'Design'
-  }
 ];
