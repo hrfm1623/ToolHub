@@ -1,0 +1,47 @@
+{
+  "short_name": "ToolBox",
+  "name": "ToolBox - 開発者のためのツールコレクション",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#4F46E5",
+  "background_color": "#F9FAFB",
+  "description": "開発者のための便利なツールコレクション。VS Code拡張機能、ブラウザツール、コマンドラインツールなど、開発効率を上げるツールを簡単に見つけることができます。",
+  "categories": ["development", "tools", "productivity"],
+  "screenshots": [
+    {
+      "src": "screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "ホーム画面"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "お気に入り",
+      "url": "/?tab=favorites",
+      "icons": [{ "src": "heart.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "すべてのツール",
+      "url": "/?tab=all",
+      "icons": [{ "src": "grid.png", "sizes": "96x96" }]
+    }
+  ]
+}

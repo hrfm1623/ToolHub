@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Search, Wrench, Heart, Grid } from "lucide-react";
+import { Search, Heart, Grid } from "lucide-react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,6 +17,7 @@ import { setSearchTerm } from "./store/filterSlice";
 import { DraggableToolCard } from "./components/DraggableToolCard";
 import { reorderFavorites } from "./store/favoriteSlice";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
+import { Logo } from "./components/Logo";
 
 const ToolDetailWrapper = () => {
   const { id } = useParams<{ id: string }>();
@@ -148,7 +149,7 @@ function App() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <Wrench className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+                      <Logo />
                       <h1 className="ml-3 text-2xl font-bold text-gray-900 dark:text-white">
                         ToolBox
                       </h1>
