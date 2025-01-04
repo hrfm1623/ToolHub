@@ -1,32 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FavoriteTool, Tool } from "../types/tool";
+import { Tool } from "../types/tool";
 
-interface FavoriteState {
-  favorites: FavoriteTool[];
+export interface FavoriteState {
+  tools: Tool[];
 }
 
 const initialState: FavoriteState = {
-  favorites: [],
+  tools: [],
 };
 
 export const favoriteSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
-    addFavorite: (state, action: PayloadAction<Tool>) => {
-      const favoriteTool: FavoriteTool = {
-        ...action.payload,
-        addedAt: new Date().toISOString(),
-      };
-      state.favorites.push(favoriteTool);
-    },
-    removeFavorite: (state, action: PayloadAction<string>) => {
-      state.favorites = state.favorites.filter(
-        (tool) => tool.id !== action.payload
+    toggleFavorite: (state, action: PayloadAction<Tool>) => {
+      const index = state.tools.findIndex(
+        (tool) => tool.id === action.payload.id
       );
+      if (index === -1) {
+        state.tools.push(action.payload);
+      } else {
+        state.tools.splice(index, 1);
+      }
     },
   },
 });
 
-export const { addFavorite, removeFavorite } = favoriteSlice.actions;
+export const { toggleFavorite } = favoriteSlice.actions;
+
 export default favoriteSlice.reducer;
